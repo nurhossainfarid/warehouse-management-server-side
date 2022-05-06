@@ -33,16 +33,25 @@ async function run() {
         })
 
         // add new item
-        // app.post('/items', async (req, res) => {
-        //     const newItem = req.body;
-        //     console.log(newItem);
-        //     const result = await laptopCollection.insertOne(newItem);
-        //     res.send(result);
-        // })
         app.post('/items', async (req, res) => {
             const newItem = req.body;
             console.log(newItem);
             const result = await laptopCollection.insertOne(newItem);
+            res.send(result);
+        })
+
+        // update item
+        app.put('/items/:id', async (req, res) => {
+            const id = req.params.id;
+            const itemUpdate = req.body;
+            const filter = { _id: ObjectId(id) };
+            const option = { upsert: true };
+            const itemUpdateDoc = {
+                $set: {
+                    price: itemUpdate.availableQuantity
+                }
+            };
+            const result = await laptopCollection.updateOne(filter, itemUpdateDoc, option);
             res.send(result);
         })
 

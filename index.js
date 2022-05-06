@@ -32,6 +32,20 @@ async function run() {
             res.send(result);
         })
 
+        // add new item
+        // app.post('/items', async (req, res) => {
+        //     const newItem = req.body;
+        //     console.log(newItem);
+        //     const result = await laptopCollection.insertOne(newItem);
+        //     res.send(result);
+        // })
+        app.post('/items', async (req, res) => {
+            const newItem = req.body;
+            console.log(newItem);
+            const result = await laptopCollection.insertOne(newItem);
+            res.send(result);
+        })
+
         // delete one
         app.delete('/items/:id', async (req, res) => {
             const id = req.params.id;

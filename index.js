@@ -61,13 +61,13 @@ async function run() {
                 // update item when add quantity
                 app.put('/items/:id', async (req, res) => {
                     const id = req.params.id;
-                    const itemUpdate = req.body;
+                    const addItemUpdate = req.body;
                     console.log(itemUpdate);
                     const filter = { _id: ObjectId(id) };
                     const option = { upsert: true };
                     const itemUpdateDoc = {
                         $set: {
-                            quantity: itemUpdate.currentQuantity
+                            quantity: addItemUpdate.currentQuantity
                         }
                     };
                     const result = await laptopCollection.updateOne(filter, itemUpdateDoc, option);

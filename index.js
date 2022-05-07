@@ -62,15 +62,15 @@ async function run() {
                 app.put('/items/:id', async (req, res) => {
                     const id = req.params.id;
                     const addItemUpdate = req.body;
-                    console.log(itemUpdate);
+                    console.log(addItemUpdate);
                     const filter = { _id: ObjectId(id) };
                     const option = { upsert: true };
-                    const itemUpdateDoc = {
+                    const AddItemUpdateDoc = {
                         $set: {
-                            quantity: addItemUpdate.currentQuantity
+                            quantity: parseInt(addItemUpdate.currentQuantity)''
                         }
                     };
-                    const result = await laptopCollection.updateOne(filter, itemUpdateDoc, option);
+                    const result = await laptopCollection.updateOne(filter, AddItemUpdateDoc, option);
                     res.send(result);
                 })
 

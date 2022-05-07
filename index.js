@@ -16,53 +16,72 @@ async function run() {
     try {
         await client.connect();
         const laptopCollection = client.db('laptopCollection').collection('items');
+        const customerComments = client.db('customerComments').collection('comments')
 
-        app.get('/items', async (req, res) => {
-            const query = {};
-            const cursor = laptopCollection.find(query);
-            const collection = await cursor.toArray();
-            res.send(collection);
-        })
+        // laptop collection
+                app.get('/items', async (req, res) => {
+                    const query = {};
+                    const cursor = laptopCollection.find(query);
+                    const collection = await cursor.toArray();
+                    res.send(collection);
+                })
 
-        // selected by id
-        app.get('/items/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) };
-            const result = await laptopCollection.findOne(query);
-            res.send(result);
-        })
+                // selected by id
+                app.get('/items/:id', async (req, res) => {
+                    const id = req.params.id;
+                    const query = { _id: ObjectId(id) };
+                    const result = await laptopCollection.findOne(query);
+                    res.send(result);
+                })
 
-        // add new item
-        app.post('/items', async (req, res) => {
-            const newItem = req.body;
-            console.log(newItem);
-            const result = await laptopCollection.insertOne(newItem);
-            res.send(result);
-        })
+                // add new item
+                app.post('/items', async (req, res) => {
+                    const newItem = req.body;
+                    console.log(newItem);
+                    const result = await laptopCollection.insertOne(newItem);
+                    res.send(result);
+                })
 
-        // update item
-        app.put('/items/:id', async (req, res) => {
-            const id = req.params.id;
-            const itemUpdate = req.body;
-            console.log(itemUpdate);
-            const filter = { _id: ObjectId(id) };
-            const option = { upsert: true };
-            const itemUpdateDoc = {
-                $set: {
-                    quantity: itemUpdate.newQuantity
-                }
-            };
-            const result = await laptopCollection.updateOne(filter, itemUpdateDoc, option);
-            res.send(result);
-        })
+                // update item
+                app.put('/items/:id', async (req, res) => {
+                    const id = req.params.id;
+                    const itemUpdate = req.body;
+                    console.log(itemUpdate);
+                    const filter = { _id: ObjectId(id) };
+                    const option = { upsert: true };
+                    const itemUpdateDoc = {
+                        $set: {
+                            quantity: itemUpdate.newQuantity
+                        }
+                    };
+                    const result = await laptopCollection.updateOne(filter, itemUpdateDoc, option);
+                    res.send(result);
+                })
 
-        // delete one
-        app.delete('/items/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) };
-            const result = await laptopCollection.deleteOne(query);
-            res.send(result);
-        })
+                // delete one
+                app.delete('/items/:id', async (req, res) => {
+                    const id = req.params.id;
+                    const query = { _id: ObjectId(id) };
+                    const result = await laptopCollection.deleteOne(query);
+                    res.send(result);
+                })
+        
+
+        // customer comments
+                app.get('/comments', async (req, res) => {
+                    const query = {};
+                    const cursor = customerComments.find(query);
+                    const comments = await cursor.toArray();
+                    res.send(comments);
+                })
+                // add new item
+                app.post('/comments', async (req, res) => {
+                    const newItem = req.body;
+                    console.log(newItem);
+                    const result = await customerComments.insertOne(newItem);
+                    res.send(result);
+                })
+
     }
     finally {
         

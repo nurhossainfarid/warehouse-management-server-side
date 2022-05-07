@@ -42,7 +42,7 @@ async function run() {
                     res.send(result);
                 })
 
-                // update item
+                // update item when click delivery button
                 app.put('/items/:id', async (req, res) => {
                     const id = req.params.id;
                     const itemUpdate = req.body;
@@ -52,6 +52,22 @@ async function run() {
                     const itemUpdateDoc = {
                         $set: {
                             quantity: itemUpdate.newQuantity
+                        }
+                    };
+                    const result = await laptopCollection.updateOne(filter, itemUpdateDoc, option);
+                    res.send(result);
+                })
+        
+                // update item when add quantity
+                app.put('/items/:id', async (req, res) => {
+                    const id = req.params.id;
+                    const itemUpdate = req.body;
+                    console.log(itemUpdate);
+                    const filter = { _id: ObjectId(id) };
+                    const option = { upsert: true };
+                    const itemUpdateDoc = {
+                        $set: {
+                            quantity: itemUpdate.currentQuantity
                         }
                     };
                     const result = await laptopCollection.updateOne(filter, itemUpdateDoc, option);

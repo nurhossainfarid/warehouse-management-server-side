@@ -67,7 +67,7 @@ async function run() {
                     const option = { upsert: true };
                     const AddItemUpdateDoc = {
                         $set: {
-                            quantity: parseInt(addItemUpdate.currentQuantity)''
+                            quantity: parseInt(addItemUpdate.currentQuantity)
                         }
                     };
                     const result = await laptopCollection.updateOne(filter, AddItemUpdateDoc, option);

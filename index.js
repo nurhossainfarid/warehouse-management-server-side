@@ -43,22 +43,6 @@ async function run() {
                     res.send(result);
                 })
         
-                // add my items
-                app.post('/myItems', async (req, res) => {
-                    const newItem = req.body;
-                    console.log(newItem);
-                    const result = await myItems.insertOne(newItem);
-                    res.send(result);
-                })
-        
-                // add items history
-                app.get('/myItems', async (req, res) => {
-                    const email = req.query.email;
-                        const query = {email: email};
-                        const cursor = laptopCollection.find(query);
-                        const result = await cursor.toArray();
-                        res.send(result)
-                })
 
                 // update item when click delivery button
                 app.put('/items/:id', async (req, res) => {
@@ -83,7 +67,31 @@ async function run() {
                     res.send(result);
                 })
         
-
+        // myItems 
+                // add my items
+                app.post('/myItems', async (req, res) => {
+                    const newItem = req.body;
+                    console.log(newItem);
+                    const result = await myItems.insertOne(newItem);
+                    res.send(result);
+                })
+        
+                // my items history
+                app.get('/myItems', async (req, res) => {
+                    const email = req.query.email;
+                        const query = {email: email};
+                        const cursor = laptopCollection.find(query);
+                        const result = await cursor.toArray();
+                        res.send(result)
+                })
+                // delete one
+                app.delete('/myItems/:id', async (req, res) => {
+                    const id = req.params.id;
+                    const query = { _id: ObjectId(id) };
+                    const result = await laptopCollection.deleteOne(query);
+                    res.send(result);
+                })
+        
         // customer comments
                 app.get('/comments', async (req, res) => {
                     const query = {};

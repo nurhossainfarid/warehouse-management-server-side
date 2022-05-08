@@ -41,6 +41,21 @@ async function run() {
                     const result = await laptopCollection.insertOne(newItem);
                     res.send(result);
                 })
+        
+                // add items history
+                app.get('/items', async (req, res) => {
+                    const decodedEmail = req.body;
+                    const email = req.query.email;
+                    if (email === decodedEmail) {
+                        const query = {email: email};
+                        const cursor = laptopCollection.find(query);
+                        const result = await cursor.toArray();
+                        res.send(result)
+                    }
+                    else {
+                        res.status(404).send({message: 'Not Found'})
+                    }
+                })
 
                 // update item when click delivery button
                 app.put('/items/:id', async (req, res) => {

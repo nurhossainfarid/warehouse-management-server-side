@@ -52,7 +52,7 @@ async function run() {
                 })
         
                 // add items history
-                app.get('/items', async (req, res) => {
+                app.get('/myItems', async (req, res) => {
                     const email = req.query.email;
                         const query = {email: email};
                         const cursor = laptopCollection.find(query);

@@ -17,6 +17,7 @@ async function run() {
         await client.connect();
         const laptopCollection = client.db('laptopCollection').collection('items');
         const customerComments = client.db('customerComments').collection('comments')
+        const myItems = client.db('myItems').collection('item');
 
         // laptop collection
                 app.get('/items', async (req, res) => {
@@ -42,19 +43,21 @@ async function run() {
                     res.send(result);
                 })
         
+                // add my items
+                app.post('/myItems', async (req, res) => {
+                    const newItem = req.body;
+                    console.log(newItem);
+                    const result = await myItems.insertOne(newItem);
+                    res.send(result);
+                })
+        
                 // add items history
                 app.get('/items', async (req, res) => {
-                    const decodedEmail = req.body;
                     const email = req.query.email;
-                    if (email === decodedEmail) {
                         const query = {email: email};
                         const cursor = laptopCollection.find(query);
                         const result = await cursor.toArray();
                         res.send(result)
-                    }
-                    else {
-                        res.status(404).send({message: 'Not Found'})
-                    }
                 })
 
                 // update item when click delivery button
